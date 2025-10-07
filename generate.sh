@@ -5,15 +5,16 @@
 # or if there's a pipe failure
 set -euo pipefail
 
-# Chain id
-CHAIN_ID=42161
+# Load variables from .env file
+set -o allexport
+source .env
+set +o allexport
 
-# Initial L1 base fee
-# (you should set this to your estimate of the parent chain's gas price)
-L1_BASE_FEE=1000000000  # 1 gwei
-
-# Nitro node image
-NITRO_NODE_IMAGE=offchainlabs/nitro-node:v3.7.3-e421729
+# Ensure env variables are set
+if [ -z "$CHAIN_ID" ] || [ -z "$L1_BASE_FEE" ] || [ -z "$NITRO_NODE_IMAGE" ]; then
+  echo "Error: Environment variables are not set in .env. You need to set CHAIN_ID, L1_BASE_FEE, and NITRO_NODE_IMAGE."
+  exit 1
+fi
 
 # Run the script
 forge script script/Predeploys.s.sol:Predeploys \
