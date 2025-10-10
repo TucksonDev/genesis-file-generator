@@ -1,6 +1,6 @@
 # Genesis.json generator
 
-This repository contains a script to generate a genesis.json file and obtain the block hash and send root hash necessary to create an Arbitrum chain with a set of predeployed contracts at genesis.
+This repository contains a script to generate a genesis.json file and obtain the block hash and sendRoot hash necessary to create an Arbitrum chain with a set of pre-deployed contracts at genesis.
 
 ## How to use this repository
 
@@ -32,6 +32,14 @@ The script will output two artifacts:
     ```shell
     BlockHash: 0xf889f684a78849b0f073f584c9b04503441032a1404fca1f8813c16517f3a7af, SendRoot: 0x17f2d1f75de0d8fb0d1e1f2cf8c6a279ed05933e551ede30f74ae3a05b1a3df2
     ```
+
+## How are contracts pre-deployed
+
+This tool uses a Foundry script to deploy all contracts to the local chain created when running the script, and then fetches information about their state to craft the genesis.json file. Contracts are deployed following the same instructions than when deploying on a live chain, usually one of these methods:
+
+- `CREATE2`
+- `CREATE`
+- Pre-signed transaction
 
 ## Pre-deployed contracts
 
@@ -152,12 +160,6 @@ Bytecode:
 
 ```
 0x604580600e600039806000f350fe7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe03601600081602082378035828234f58015156039578182fd5b8082525050506014600cf3
-```
-
-Removing the creation component, `0x604580600e600039806000f350fe`, we are left with the runtime bytecode.
-
-```
-0x7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe03601600081602082378035828234f58015156039578182fd5b8082525050506014600cf3
 ```
 
 Alternative, the runtime bytecode can be verified in any block explorer, for example, in [Arbiscan](https://arbiscan.io/address/0x914d7Fec6aaC8cd542e72Bca78B30650d45643d7#code).

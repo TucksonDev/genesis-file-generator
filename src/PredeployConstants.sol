@@ -35,12 +35,13 @@ bytes constant MultisendCallOnly1_3CreationBytecode =
 
 /// @dev Safe Singleton Factory v1.0.43
 /// @dev https://github.com/safe-global/safe-singleton-factory/blob/v1.0.43/source/deterministic-deployment-proxy.yul
-/// @dev No need to deploy, we'll use the runtime bytecode directly
+/// @dev Deployed with CREATE
 /// @dev This code was compiled with a very old version of solc. To obtain the bytecode, run the following command:
 /// @dev `docker run -v .:/sources --rm ethereum/solc:0.5.8 --strict-assembly /sources/src/deterministic-deployment-proxy.yul --optimize-yul`
 address constant SafeSingletonFactoryAddress = 0x914d7Fec6aaC8cd542e72Bca78B30650d45643d7;
-bytes constant SafeSingletonFactoryRuntimeBytecode =
-    hex"7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe03601600081602082378035828234f58015156039578182fd5b8082525050506014600cf3";
+address constant SafeSingletonFactoryDeployerAddress = 0xE1CB04A0fA36DdD16a06ea828007E35e1a3cBC37;
+bytes constant SafeSingletonFactoryCreationBytecode =
+    hex"604580600e600039806000f350fe7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe03601600081602082378035828234f58015156039578182fd5b8082525050506014600cf3";
 
 /// @dev Multicall3
 /// @dev https://github.com/mds1/multicall3/blob/v3.1.0/src/Multicall3.sol
