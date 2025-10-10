@@ -78,10 +78,10 @@ Source code available at https://github.com/safe-global/safe-smart-account/blob/
 
 Note: there are 2 addresses where this Safe can be deployed to:
 
-- `0x69f4D1788e39c87893C980c06EdF4b7f686e2938`: when using EIP-155 (including the chain id in the transaction)
-- `0xd9Db270c1B5E3Bd161E8c8503c55cEABeE709552`: when using the canonical version (without the chain id)
+- `0x69f4D1788e39c87893C980c06EdF4b7f686e2938`: when using the safe singleton factory
+- `0xd9Db270c1B5E3Bd161E8c8503c55cEABeE709552`: when using Arachnid's CREATE2
 
-Since we don’t know the chain id beforehand, we use the bytecode of the canonical version
+In this case, we'll use the canonical CREATE2 method, instead of Safe's factory
 
 #### How to verify the creation bytecode
 
@@ -95,10 +95,10 @@ Source code available at https://github.com/safe-global/safe-smart-account/blob/
 
 Note: there are 2 addresses where this Safe can be deployed to:
 
-- `0xfb1bffC9d739B8D520DaF37dF666da4C687191EA`: when using EIP-155 (including the chain id in the transaction)
-- `0x3e5c63644e683549055b9be8653de26e0b4cd36e`: when using the canonical version (without the chain id)
+- `0xfb1bffC9d739B8D520DaF37dF666da4C687191EA`: when using the safe singleton factory
+- `0x3e5c63644e683549055b9be8653de26e0b4cd36e`: when using Arachnid's CREATE2
 
-Since we don’t know the chain id beforehand, we use the bytecode of the canonical version
+In this case, we'll use the canonical CREATE2 method, instead of Safe's factory
 
 #### How to verify the creation bytecode
 
@@ -112,10 +112,10 @@ Source code available at https://github.com/safe-global/safe-smart-account/blob/
 
 Note: there are 2 addresses where this contract can be deployed to:
 
-- `0x998739BFdAAdde7C933B942a68053933098f9EDa`: when using EIP-155 (including the chain id in the transaction)
-- `0xa238cbeb142c10ef7ad8442c6d1f9e89e07e7761`: when using the canonical version (without the chain id)
+- `0x998739BFdAAdde7C933B942a68053933098f9EDa`: when using the safe singleton factory
+- `0xa238cbeb142c10ef7ad8442c6d1f9e89e07e7761`: when using Arachnid's CREATE2
 
-Since we don’t know the chain id beforehand, we use the bytecode of the canonical version
+In this case, we'll use the canonical CREATE2 method, instead of Safe's factory
 
 #### How to verify the creation bytecode
 
@@ -129,10 +129,10 @@ Source code available at https://github.com/safe-global/safe-smart-account/blob/
 
 Note: there are 2 addresses where this contract can be deployed to:
 
-- `0xA1dabEF33b3B82c7814B6D82A79e50F4AC44102B`: when using EIP-155 (including the chain id in the transaction)
-- `0x40a2accbd92bca938b02010e17a5b8929b49130d`: when using the canonical version (without the chain id)
+- `0xA1dabEF33b3B82c7814B6D82A79e50F4AC44102B`: when using the safe singleton factory
+- `0x40a2accbd92bca938b02010e17a5b8929b49130d`: when using Arachnid's CREATE2
 
-Since we don’t know the chain id beforehand, we use the bytecode of the canonical version
+In this case, we'll use the canonical CREATE2 method, instead of Safe's factory
 
 #### How to verify the creation bytecode
 
@@ -140,15 +140,15 @@ Follow the build instructions of the repository and obtain the creation bytecode
 
 ### SafeSingletonFactory v1.0.43
 
-Deployed at `0x914d7Fec6aaC8cd542e72Bca78B30650d45643d7`.
+Deployed at `0x914d7Fec6aaC8cd542e72Bca78B30650d45643d7` using CREATE from the address `0xE1CB04A0fA36DdD16a06ea828007E35e1a3cBC37` and nonce 0.
 
 Source code available at https://github.com/safe-global/safe-singleton-factory/blob/v1.0.43/source/deterministic-deployment-proxy.yul .
 
 This contract is a replica of Arachnid's Deterministic Deployment Proxy, that is deployed using a key controlled by the Safe team.
 
-Since we don't have access to that key, to have this contract available as a pre-deploy in the expected address, we can just `etch` the bytecode to the expected address.
+To deploy this contract, we need to act as the deployer address and deploy the creation bytecode.
 
-#### How to verify the runtime bytecode
+#### How to verify the creation bytecode
 
 This contract is compiled with a very old version of solc. To obtain the bytecode, run the following command:
 
