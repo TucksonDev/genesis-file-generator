@@ -278,6 +278,34 @@ contract Predeploys is Script {
             vm.serializeString(genesisAllocJson, vm.toString(contractAddress), contractJson);
         }
 
+        // -----------------------------------------------
+        // EAS SchemaRegistry v1.4.0 (via CREATE2)
+        // ------------------------------------------------------
+        {
+            console.log("Deploying EAS SchemaRegistry v1.4.0");
+            address contractAddress = EASSchemaRegistryAddress;
+            (bytes memory contractCode, bytes32[] memory contractWriteSlots) = deployContractViaCreate2(EASSchemaRegistryCreationBytecode, EASSchemaRegistrySalt, EASSchemaRegistryAddress);
+            console.log("Contract deployed at:", contractAddress);
+            string memory contractJson = addPredeployInformationToJson(contractAddress, contractCode, contractWriteSlots);
+            vm.serializeString(genesisAllocJson, vm.toString(contractAddress), contractJson);
+        }
+
+        // -----------------------------------------------------------------------------
+        // EAS v1.4.0 (via CREATE2)
+        // -----------------------------------------------------------------------------
+        {
+            console.log("Deploying EAS v1.4.0");
+            address contractAddress = EASAddress;
+            bytes memory easCreationBytecode = abi.encodePacked(
+                EASCreationBytecode,
+                abi.encode(EASSchemaRegistryAddress) // Constructor argument: SchemaRegistry address
+            );
+            (bytes memory contractCode, bytes32[] memory contractWriteSlots) = deployContractViaCreate2(easCreationBytecode, EASSalt, EASAddress);
+            console.log("Contract deployed at:", contractAddress);
+            string memory contractJson = addPredeployInformationToJson(contractAddress, contractCode, contractWriteSlots);
+            genesisAllocJson = vm.serializeString(genesisAllocJson, vm.toString(contractAddress), contractJson);
+        }
+
         // ----------------------------------------
         // ERC-4337 Entrypoint v0.6.0 (via CREATE2)
         // ----------------------------------------
@@ -387,7 +415,67 @@ contract Predeploys is Script {
             (bytes memory contractCode, bytes32[] memory contractWriteSlots) = deployContractViaCreate2(safe4337ModuleEntrypoint0_7_0CreationBytecode, Safe4337Module0_3_0Entrypoint0_7_0Salt, Safe4337Module0_3_0Entrypoint0_7_0Address);
             console.log("Contract deployed at:", contractAddress);
             string memory contractJson = addPredeployInformationToJson(contractAddress, contractCode, contractWriteSlots);
-            genesisAllocJson = vm.serializeString(genesisAllocJson, vm.toString(contractAddress), contractJson);
+            vm.serializeString(genesisAllocJson, vm.toString(contractAddress), contractJson);
+        }
+
+        // -----------------------------------------------------------------------------
+        // Kernel v3.3 (supporting Entrypoint v0.7.0) (via CREATE2)
+        // -----------------------------------------------------------------------------
+        {
+            console.log("Deploying Kernel v3.3 (supporting Entrypoint v0.7.0)");
+            address contractAddress = Kernel_Entrypoint0_7_0Address;
+            bytes memory kernel_Entrypoint0_7_0CreationBytecode = abi.encodePacked(
+                Kernel_Entrypoint0_7_0CreationBytecode,
+                abi.encode(ERC4337_Entrypoint0_7_0Address) // Constructor argument: entrypoint address
+            );
+            (bytes memory contractCode, bytes32[] memory contractWriteSlots) = deployContractViaCreate2(kernel_Entrypoint0_7_0CreationBytecode, Kernel_Entrypoint0_7_0Salt, Kernel_Entrypoint0_7_0Address);
+            console.log("Contract deployed at:", contractAddress);
+            string memory contractJson = addPredeployInformationToJson(contractAddress, contractCode, contractWriteSlots);
+            vm.serializeString(genesisAllocJson, vm.toString(contractAddress), contractJson);
+        }
+
+        // -----------------------------------------------------------------------------
+        // KernelFactory v3.3 (supporting Entrypoint v0.7.0) (via CREATE2)
+        // -----------------------------------------------------------------------------
+        {
+            console.log("Deploying KernelFactory v3.3 (supporting Entrypoint v0.7.0)");
+            address contractAddress = KernelFactory_Entrypoint0_7_0Address;
+            bytes memory kernelFactory_Entrypoint0_7_0CreationBytecode = abi.encodePacked(
+                KernelFactory_Entrypoint0_7_0CreationBytecode,
+                abi.encode(Kernel_Entrypoint0_7_0Address) // Constructor argument: entrypoint address
+            );
+            (bytes memory contractCode, bytes32[] memory contractWriteSlots) = deployContractViaCreate2(kernelFactory_Entrypoint0_7_0CreationBytecode, KernelFactory_Entrypoint0_7_0Salt, KernelFactory_Entrypoint0_7_0Address);
+            console.log("Contract deployed at:", contractAddress);
+            string memory contractJson = addPredeployInformationToJson(contractAddress, contractCode, contractWriteSlots);
+            vm.serializeString(genesisAllocJson, vm.toString(contractAddress), contractJson);
+        }
+
+        // ---------------------------------------
+        // Kernel FactoryStaker v3.0 (via CREATE2)
+        // ---------------------------------------
+        {
+            console.log("Deploying Kernel FactoryStaker v3.0");
+            address contractAddress = KernelFactoryStakerAddress;
+            bytes memory kernelFactoryStakerCreationBytecode = abi.encodePacked(
+                KernelFactoryStakerCreationBytecode,
+                abi.encode(KernelFactoryStakerOwnerAddress) // Constructor argument: owner of the factories
+            );
+            (bytes memory contractCode, bytes32[] memory contractWriteSlots) = deployContractViaCreate2(kernelFactoryStakerCreationBytecode, KernelFactoryStakerSalt, KernelFactoryStakerAddress);
+            console.log("Contract deployed at:", contractAddress);
+            string memory contractJson = addPredeployInformationToJson(contractAddress, contractCode, contractWriteSlots);
+            vm.serializeString(genesisAllocJson, vm.toString(contractAddress), contractJson);
+        }
+
+        // ----------------------------------------
+        // Kernel ECDSAValidator v3.1 (via CREATE2)
+        // ----------------------------------------
+        {
+            console.log("Deploying Kernel ECDSAValidator v3.1");
+            address contractAddress = KernelECDSAValidatorAddress;
+            (bytes memory contractCode, bytes32[] memory contractWriteSlots) = deployContractViaCreate2(KernelECDSAValidatorCreationBytecode, KernelECDSAValidatorSalt, KernelECDSAValidatorAddress);
+            console.log("Contract deployed at:", contractAddress);
+            string memory contractJson = addPredeployInformationToJson(contractAddress, contractCode, contractWriteSlots);
+            vm.serializeString(genesisAllocJson, vm.toString(contractAddress), contractJson);
         }
 
         // Form the rest of the JSON structure
